@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,8 +23,8 @@ public class WeatherController {
 
 
 
-    @GetMapping("/weather/{city}/{units}")
-    public ResponseEntity<OpenWeather> getWeather(@PathVariable("city") String city, @PathVariable("units") String units){
+    @GetMapping("/weather")
+    public ResponseEntity<OpenWeather> getWeather(@RequestParam("q") String city, @RequestParam("units") String units){
         OpenWeather openWeather = weatherService.getWeather(city,units);
         ResponseEntity<OpenWeather> response = new ResponseEntity<>(openWeather, HttpStatusCode.valueOf(200));
         return response;
