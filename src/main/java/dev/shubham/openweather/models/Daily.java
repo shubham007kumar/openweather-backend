@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Main implements Serializable {
-    private double temp;
-    private double feels_like;
-    private int pressure;
-    private int humidity;
+public class Daily implements Serializable {
+    private long dt;
+    private FeelsLike feels_like;
+    private List<Weather> weather;
 }

@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CoordDto {
-    private double log;
+    private double lon;
     private double lat;
 }

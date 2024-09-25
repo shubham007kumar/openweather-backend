@@ -7,13 +7,11 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Main implements Serializable {
-    private double temp;
-    private double feels_like;
-    private int pressure;
-    private int humidity;
+public class Coord implements Serializable {
+    private double lon;
+    private double lat;
 }

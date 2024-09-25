@@ -7,13 +7,13 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Main implements Serializable {
-    private double temp;
-    private double feels_like;
-    private int pressure;
-    private int humidity;
+public class FeelsLike implements Serializable {
+    private double day;
+    private double night;
+    private double eve;
+    private double morn;
 }
