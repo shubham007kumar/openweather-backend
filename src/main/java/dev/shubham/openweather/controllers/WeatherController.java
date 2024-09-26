@@ -1,6 +1,8 @@
 package dev.shubham.openweather.controllers;
 
 import dev.shubham.openweather.dtos.OpenWeatherResponseDto;
+import dev.shubham.openweather.exceptions.CityNotFoundException;
+import dev.shubham.openweather.exceptions.ForeCastException;
 import dev.shubham.openweather.models.Forecast;
 import dev.shubham.openweather.models.OpenWeather;
 import dev.shubham.openweather.services.OpenWeatherService;
@@ -32,7 +34,7 @@ public class WeatherController {
 
 
     @GetMapping("/weather")
-    public ResponseEntity<OpenWeather> getWeather(@RequestParam("q") String city, @RequestParam("units") String units){
+    public ResponseEntity<OpenWeather> getWeather(@RequestParam("q") String city, @RequestParam("units") String units) throws CityNotFoundException {
         OpenWeather openWeather = (OpenWeather) redisTemplate.opsForHash().get("weather","weather-"+city+"-"+units);
         if(openWeather != null){
             return new ResponseEntity<>(openWeather,HttpStatusCode.valueOf(200));
@@ -44,7 +46,7 @@ public class WeatherController {
     }
 
     @GetMapping("/forecast")
-    public ResponseEntity<Forecast> getForecast(@RequestParam("lat") String lat, @RequestParam("lon") String lon,@RequestParam("units") String units){
+    public ResponseEntity<Forecast> getForecast(@RequestParam("lat") String lat, @RequestParam("lon") String lon,@RequestParam("units") String units) throws ForeCastException {
         Forecast forecast = (Forecast) redisTemplate.opsForHash().get("forecast","forecast-"+lat+"-"+lon+"-"+units);
         if(forecast != null){
             return new ResponseEntity<>(forecast,HttpStatusCode.valueOf(200));

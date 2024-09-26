@@ -3,6 +3,8 @@ package dev.shubham.openweather.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.shubham.openweather.dtos.ForecastResponseDto;
 import dev.shubham.openweather.dtos.OpenWeatherResponseDto;
+import dev.shubham.openweather.exceptions.CityNotFoundException;
+import dev.shubham.openweather.exceptions.ForeCastException;
 import dev.shubham.openweather.models.Forecast;
 import dev.shubham.openweather.models.OpenWeather;
 import org.modelmapper.ModelMapper;
@@ -26,19 +28,23 @@ public class OpenWeatherService implements WeatherService {
         this.modelMapper = modelMapper;
     }
     @Override
-    public OpenWeather getWeather(String city,String units) {
+    public OpenWeather getWeather(String city,String units) throws CityNotFoundException {
      ResponseEntity response =   restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+appid+"&units="+units, OpenWeatherResponseDto.class);
      OpenWeatherResponseDto openWeatherResponseDto = (OpenWeatherResponseDto) response.getBody();
-        // if response come null throw error
+        if(openWeatherResponseDto == null){
+            throw new CityNotFoundException("Please enter correct city name");
+        }
         OpenWeather openWeather = modelMapper.map(openWeatherResponseDto,OpenWeather.class);
      return openWeather;
     }
 
     @Override
-    public Forecast getForecast(String lat, String lon,String units) {
+    public Forecast getForecast(String lat, String lon,String units) throws ForeCastException {
         ResponseEntity response =   restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/forecast/daily?units="+units+"&lat="+lat+"&appid="+appid+"&lon="+lon, ForecastResponseDto.class);
         ForecastResponseDto forecastResponseDto = (ForecastResponseDto) response.getBody();
-        // if response come null throw error
+        if(forecastResponseDto == null){
+            throw new ForeCastException("Error while fetching forecast data");
+        }
         Forecast forecast = modelMapper.map(forecastResponseDto,Forecast.class);
         return forecast;
     }
