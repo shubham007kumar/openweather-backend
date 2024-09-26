@@ -33,24 +33,24 @@ public class WeatherController {
 
     @GetMapping("/weather")
     public ResponseEntity<OpenWeather> getWeather(@RequestParam("q") String city, @RequestParam("units") String units){
-        OpenWeather openWeather = (OpenWeather) redisTemplate.opsForHash().get("weather","weather"+city);
+        OpenWeather openWeather = (OpenWeather) redisTemplate.opsForHash().get("weather","weather-"+city+"-"+units);
         if(openWeather != null){
             return new ResponseEntity<>(openWeather,HttpStatusCode.valueOf(200));
         }
          openWeather = weatherService.getWeather(city,units);
-        redisTemplate.opsForHash().put("weather","weather"+city,openWeather);
+        redisTemplate.opsForHash().put("weather","weather-"+city+"-"+units,openWeather);
         ResponseEntity<OpenWeather> response = new ResponseEntity<>(openWeather, HttpStatusCode.valueOf(200));
         return response;
     }
 
     @GetMapping("/forecast")
-    public ResponseEntity<Forecast> getForecast(@RequestParam("lat") String lat, @RequestParam("lon") String lon){
-        Forecast forecast = (Forecast) redisTemplate.opsForHash().get("forecast","forecast"+lat+"_"+lon);
+    public ResponseEntity<Forecast> getForecast(@RequestParam("lat") String lat, @RequestParam("lon") String lon,@RequestParam("units") String units){
+        Forecast forecast = (Forecast) redisTemplate.opsForHash().get("forecast","forecast-"+lat+"-"+lon+"-"+units);
         if(forecast != null){
             return new ResponseEntity<>(forecast,HttpStatusCode.valueOf(200));
         }
-        forecast = weatherService.getForecast(lat,lon);
-        redisTemplate.opsForHash().put("forecast","forecast"+lat+"_"+lon,forecast);
+        forecast = weatherService.getForecast(lat,lon,units);
+        redisTemplate.opsForHash().put("forecast","forecast-"+lat+"-"+lon+"-"+units,forecast);
         ResponseEntity<Forecast> response = new ResponseEntity<>(forecast, HttpStatusCode.valueOf(200));
         return response;
     }

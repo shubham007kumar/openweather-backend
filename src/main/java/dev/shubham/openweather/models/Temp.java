@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeelsLike implements Serializable {
+public class Temp implements Serializable {
     private double day;
     private double night;
     private double eve;

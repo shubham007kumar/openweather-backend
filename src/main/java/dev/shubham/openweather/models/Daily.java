@@ -14,6 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Daily implements Serializable {
     private long dt;
-    private FeelsLike feels_like;
+    private Temp temp;
     private List<Weather> weather;
 }

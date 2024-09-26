@@ -35,8 +35,8 @@ public class OpenWeatherService implements WeatherService {
     }
 
     @Override
-    public Forecast getForecast(String lat, String lon) {
-        ResponseEntity response =   restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/forecast/daily?lat="+lat+"&appid="+appid+"&lon="+lon, ForecastResponseDto.class);
+    public Forecast getForecast(String lat, String lon,String units) {
+        ResponseEntity response =   restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/forecast/daily?units="+units+"&lat="+lat+"&appid="+appid+"&lon="+lon, ForecastResponseDto.class);
         ForecastResponseDto forecastResponseDto = (ForecastResponseDto) response.getBody();
         // if response come null throw error
         Forecast forecast = modelMapper.map(forecastResponseDto,Forecast.class);
